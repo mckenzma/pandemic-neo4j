@@ -8,6 +8,11 @@ ON CREATE SET
 	city.color = row.Color//,
 	//city.population = toInteger(row.Population),
 	//city.location = point({ longitude: row.Longitude, latitude: row.Latitude})
+//ADD Long/Lat to (:City)
+LOAD CSV WITH HEADERS FROM "https://docs.google.com/spreadsheets/u/0/d/1Z8R-lJ-cNGYeWDvMfjqhaj-a9wTVJwRIXCT8DacQvsc/export?format=csv&id=1Z8R-lJ-cNGYeWDvMfjqhaj-a9wTVJwRIXCT8DacQvsc&gid=0" AS row
+FIELDTERMINATOR ','
+MATCH (city:City {name: row.City})
+SET city.location = point({ longitude: toFloat(row.Longitude), latitude: toFloat(row.Latitude)})
 
 //Connect Cities
 LOAD CSV WITH HEADERS FROM "https://docs.google.com/spreadsheets/u/0/d/1jYpTcFmhCTxoiGssPQpqvQ0gyChc1qfHuYv-eepKDPc/export?format=csv&id=1jYpTcFmhCTxoiGssPQpqvQ0gyChc1qfHuYv-eepKDPc&gid=0" AS row
